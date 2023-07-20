@@ -10,6 +10,8 @@ from config.conf import cm
 from common.readconfig import ini
 from utils.times import timestamp
 from utils.send_mail import send_report
+from chromedriver_py import binary_path
+from selenium.webdriver.chrome.service import Service
 
 driver = None
 
@@ -18,7 +20,8 @@ driver = None
 def drivers(request):
     global driver
     if driver is None:
-        driver = webdriver.Chrome()
+        service_object = Service(binary_path)
+        driver = webdriver.Chrome(service=service_object)
         driver.maximize_window()
 
     def fn():
@@ -29,7 +32,7 @@ def drivers(request):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item):
+def pytest_runtest_makereport(item, call):
     """
     当测试失败的时候，自动截图，展示到html报告中
     :param item:
@@ -73,11 +76,12 @@ def pytest_html_report_title(report):
     report.title = "pytest示例项目测试报告"
 
 
-def pytest_configure(config):
+"""
+def pytest_configure(config): # QA FAIL
     config._metadata.clear()
     config._metadata['测试项目'] = "测试百度官网搜索"
     config._metadata['测试地址'] = ini.url
-
+"""
 
 def pytest_html_results_summary(prefix, summary, postfix):
     # prefix.clear() # 清空summary中的内容

@@ -9,7 +9,7 @@ WIN = sys.platform.startswith('win')
 def main():
     """主函数"""
     steps = [
-        "venv\\Script\\activate" if WIN else "source venv/bin/activate",
+        # "venv\\Script\\activate" if WIN else "source venv/bin/activate",
         "pytest --alluredir allure-results --clean-alluredir",
         "allure generate allure-results -c -o allure-report",
         "allure open allure-report"
