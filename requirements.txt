@@ -1,7 +1,7 @@
-pytest
-pytest-html
-pytest-metadata
-allure-pytest
-PyYAML
-selenium
-zmail
+pytest==7.4.0
+pytest-html==3.2.0
+pytest-metadata==3.0.0
+allure-pytest==2.13.2
+PyYAML==6.0.1
+selenium==4.2.0
+zmail==0.2.8
