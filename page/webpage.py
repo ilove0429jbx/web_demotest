@@ -8,9 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
-from config.conf import cm
+from config.conf import settings
 from utils.times import sleep
-from utils.logger import log
+from utils.logger import logger
 
 
 class WebPage(object):
@@ -29,7 +29,7 @@ class WebPage(object):
         try:
             self.driver.get(url)
             self.driver.implicitly_wait(10)
-            log.info("打开网页：%s" % url)
+            logger.info("打开网页：%s" % url)
         except TimeoutException:
             raise TimeoutException("打开%s超时请检查网络或网址服务器" % url)
 
@@ -37,7 +37,7 @@ class WebPage(object):
     def element_locator(func, locator):
         """元素定位器"""
         name, value = locator
-        return func(cm.LOCATE_MODE[name], value)
+        return func(settings.LOCATE_MODE[name], value)
 
     def find_element(self, locator):
         """寻找单个元素"""
@@ -52,7 +52,7 @@ class WebPage(object):
     def elements_num(self, locator):
         """获取相同元素的个数"""
         number = len(self.find_elements(locator))
-        log.info("相同元素：{}".format((locator, number)))
+        logger.info("相同元素：{}".format((locator, number)))
         return number
 
     def input_text(self, locator, txt):
@@ -61,18 +61,29 @@ class WebPage(object):
         ele = self.find_element(locator)
         ele.clear()
         ele.send_keys(txt)
-        log.info("输入文本：{}".format(txt))
+        logger.info("输入文本：{}".format(txt))
 
-    def is_click(self, locator):
+    def click(self, locator):
         """点击"""
         self.find_element(locator).click()
         sleep()
-        log.info("点击元素：{}".format(locator))
+        logger.info("点击元素：{}".format(locator))
+
+    def is_visible(self, locator):
+        """元素是否可见"""
+        try:
+            ele = WebPage.element_locator(lambda *args: self.visible_obj.until(
+                EC.visibility_of_element_located(args), locator))
+            if ele:
+                return True
+            return False
+        except TimeoutException:
+            return False
 
     def element_text(self, locator):
         """获取当前的text"""
         _text = self.find_element(locator).text
-        log.info("获取文本：{}".format(_text))
+        logger.info("获取文本：{}".format(_text))
         return _text
 
     @property

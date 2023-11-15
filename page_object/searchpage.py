@@ -21,7 +21,7 @@ class SearchPage(WebPage):
 
     def click_search(self):
         """点击搜索"""
-        self.is_click(search['搜索按钮'])
+        self.click(search['搜索按钮'])
 
 
 if __name__ == '__main__':

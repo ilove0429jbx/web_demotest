@@ -3,7 +3,7 @@
 import re
 import pytest
 import allure
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from page_object.searchpage import SearchPage
 
@@ -23,7 +23,7 @@ class TestSearch:
         search.input_search("selenium")
         search.click_search()
         result = re.search(r'selenium', search.get_source)
-        log.info(result)
+        logger.info(result)
         assert result
 
     @allure.story("测试搜索候选用例")
@@ -31,7 +31,7 @@ class TestSearch:
         """测试搜索候选"""
         search = SearchPage(drivers)
         search.input_search("selenium")
-        log.info(list(search.imagine))
+        logger.info(list(search.imagine))
         assert all(["selenium" in i for i in search.imagine])
 
 

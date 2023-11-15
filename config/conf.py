@@ -37,6 +37,8 @@ class ConfigManager(object):
         '1084502012@qq.com',
     ]
 
+    LOGGER_FORMAT = '%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s'
+
     @property
     def screen_path(self):
         """截图目录"""
@@ -64,6 +66,6 @@ class ConfigManager(object):
         return ini_file
 
 
-cm = ConfigManager()
+settings = ConfigManager()
 if __name__ == '__main__':
-    print(cm.BASE_DIR)
+    print(settings.BASE_DIR)

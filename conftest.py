@@ -6,7 +6,7 @@ import allure
 from py.xml import html
 from selenium import webdriver
 
-from config.conf import cm
+from config.conf import settings
 from common.readconfig import ini
 from utils.times import timestamp
 from utils.send_mail import send_report
@@ -107,7 +107,7 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
 
 def _capture_screenshot():
     """截图保存为base64"""
-    now_time, screen_file = cm.screen_path
+    now_time, screen_file = settings.screen_path
     driver.save_screenshot(screen_file)
     allure.attach.file(screen_file,
                        "失败截图{}".format(now_time),
